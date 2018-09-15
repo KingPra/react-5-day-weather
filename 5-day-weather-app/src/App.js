@@ -23,6 +23,25 @@ class App extends Component {
     );
     const data = await api_call.json();
     console.log(data);
+
+    const dataList = data.list;
+    const weatherArray = [];
+    const startTimeStamp = new Date(dataList[0].dt * 1000);
+    const hour = startTimeStamp.getHours();
+    //const day = startTimeStamp.getUTCDay();
+
+    for (let i = 0; i < dataList.length; i++) {
+      let timeStamp = new Date(dataList[i].dt * 1000);
+      if (timeStamp.getHours() === hour) {
+        weatherArray.push(dataList[i]);
+      }
+    }
+    console.log("timestamp:", startTimeStamp);
+    console.log("hour:", hour);
+    console.log("weather array:", weatherArray);
+    //need to parse through weather array and only use 24hr blocks of data;
+
+    // console.log(hour);
     this.setState({
       temperature: data.list[0].main.temp,
       description: data.list[0].weather[0].description,
