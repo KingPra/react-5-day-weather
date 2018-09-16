@@ -12,6 +12,7 @@ class App extends Component {
     description: undefined,
     city: undefined,
     error: undefined
+    //day: this.props.arrOfDays[0]
   };
 
   getWeather = async e => {
@@ -23,7 +24,15 @@ class App extends Component {
     );
     const data = await api_call.json();
     console.log(data);
-
+    const arrOfDays = [
+      { 0: "Sunday" },
+      { 1: "Monday" },
+      { 2: "Tuesday" },
+      { 3: "Wednesday" },
+      { 4: "Thursday" },
+      { 5: "Friday" },
+      { 6: "Saturday" }
+    ];
     const dataList = data.list;
     const weatherArray = [];
     const startTimeStamp = new Date(dataList[0].dt * 1000);
@@ -39,16 +48,10 @@ class App extends Component {
     console.log("timestamp:", startTimeStamp);
     console.log("hour:", hour);
     console.log("weather array:", weatherArray);
+    console.log(arrOfDays[0]);
     //need to parse through weather array and only use 24hr blocks of data;
-
-    // console.log(hour);
-    this.setState({
-      temperature: data.list[0].main.temp,
-      description: data.list[0].weather[0].description,
-      city: data.city.name,
-      error: ""
-    });
   };
+
   render() {
     return (
       <div className="App">
@@ -59,7 +62,8 @@ class App extends Component {
         <Weather
           temp={this.state.temperature}
           conditions={this.state.description}
-          city={this.state.city}
+          city={this.state.weatherArray}
+          day={this.state.day}
         />
       </div>
     );
